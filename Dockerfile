@@ -1,4 +1,4 @@
-FROM ghcr.io/cosmian/kms:develop@sha256:508d4358baa49007a2340f86ad16856383e353489fd2f00657389d1b8b830bc4
+FROM ghcr.io/cosmian/kms:latest
 
 # Install required packages
 RUN apt-get update && apt-get install -y \

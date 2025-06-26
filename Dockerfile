@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     libpcsclite-dev \
     opensc \
     opensc-pkcs11 \
- && apt-get clean && \
+ && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
 # Create a symlink to the opensc-pkcs11 library

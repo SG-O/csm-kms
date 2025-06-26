@@ -30,4 +30,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ghcr.io/sg-o/csm-kms:latest
+        tags: ghcr.io/SG-O/csm-kms:latest

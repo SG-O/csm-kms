@@ -11,4 +11,4 @@ RUN apt-get update && apt-get install -y \
  && rm -rf /var/lib/apt/lists/*
 
 # Create a symlink to the opensc-pkcs11 library
-RUN ln -s /usr/lib/opensc-pkcs11.so /lib/libcs_pkcs11_R3.so
+RUN ln -s /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so /lib/libcs_pkcs11_R3.so

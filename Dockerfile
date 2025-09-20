@@ -1,4 +1,4 @@
-FROM ghcr.io/cosmian/kms:latest
+FROM ghcr.io/sg-o/kms:develop
 
 # Install required packages
 RUN apt-get update && apt-get install -y \

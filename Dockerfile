@@ -1,7 +1,7 @@
 FROM debian:bookworm-20250428-slim AS builder
 
 RUN apt-get update && apt-get install -y \
-    build-essential binutils make csh g++ sed gawk autoconf automake autotools-dev \
+    build-essential binutils make csh g++ sed gawk autoconf automake autotools-dev libtool \
     git \
     libpcsclite-dev \
     libusb-1.0-0-dev \

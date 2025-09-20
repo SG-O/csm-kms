@@ -17,6 +17,7 @@ WORKDIR /root
 RUN git clone https://github.com/CardContact/sc-hsm-embedded.git
 RUN git clone https://github.com/Cosmian/kms.git
 WORKDIR /root/kms
+RUN git submodule update --init --recursive
 
 ARG TARGETPLATFORM
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then export ARCHITECTURE=x86_64; elif [ "$TARGETPLATFORM" = "linux/arm/v7" ]; then export ARCHITECTURE=arm; elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then export ARCHITECTURE=arm64; else export ARCHITECTURE=x86_64; fi \

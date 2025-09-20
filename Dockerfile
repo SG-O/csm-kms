@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /root
 
 RUN git clone https://github.com/CardContact/sc-hsm-embedded.git
-RUN git https://github.com/Cosmian/kms.git
+RUN git clone https://github.com/Cosmian/kms.git
 WORKDIR /root/kms
 
 ARG TARGETPLATFORM

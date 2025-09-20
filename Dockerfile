@@ -1,6 +1,6 @@
 FROM debian:bookworm-20250428-slim AS builder
 
-RUN apt-get update && sudo apt-get install -y \
+RUN apt-get update && apt-get install -y \
     build-essential \
     git \
     libpcsclite-dev \

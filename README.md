@@ -1,6 +1,6 @@
 # csm-kms
 
-This custom build of of Cosmian KMS intends to add smart card support by installing:
+This custom build of of Cosmian KMS intends to add smart card hsm and softhsm2 support by installing:
 
-- `pcscd`, `libccid`, `libpcsclite-dev`, `opensc`, `opensc-pkcs11`
-- A symbolic link: `/lib/libcs_pkcs11_R3.so -> /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so`
+- `softhsm2`
+- `libsc-hsm-pkcs11` (built with )

@@ -3,7 +3,7 @@ FROM debian:bookworm-20250428-slim AS builder
 ENV OPENSSL_DIR=/usr/local/openssl
 
 RUN apt-get update && apt-get install -y \
-    build-essential binutils make csh g++ sed gawk autoconf automake autotools-dev libtool wget \
+    build-essential binutils make csh g++ sed gawk autoconf automake autotools-dev libtool wget pkg-config \
     git \
     libpcsclite-dev \
     libusb-1.0-0-dev \

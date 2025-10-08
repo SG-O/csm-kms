@@ -1,0 +1,16 @@
+# SCM SCR 3310
+SUBSYSTEM=="usb", ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5116", GROUP="schsm", MODE="664"
+# SCM SCR 35XX (JCOP 2.4.1r3)
+SUBSYSTEM=="usb", ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5410", GROUP="schsm", MODE="664"
+# Identiv uTrust Token Pro (JCOP 2.4.1r3)
+SUBSYSTEM=="usb", ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5817", GROUP="schsm", MODE="664"
+# Identiv uTrust Token Standard
+SUBSYSTEM=="usb", ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5816", GROUP="schsm", MODE="664"
+# Identiv uTrust 2700 R
+SUBSYSTEM=="usb", ATTRS{idVendor}=="04e6", ATTRS{idProduct}=="5810", GROUP="schsm", MODE="664"
+# Nitrokey HSM
+SUBSYSTEM=="usb", ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="4230", GROUP="schsm", MODE="664"
+# KX906
+SUBSYSTEM=="usb", ATTRS{idVendor}=="2f76", ATTRS{idProduct}=="0906", GROUP="schsm", MODE="664"
+
+# Probe for serial number  ATTR{serial}=="55511725601946"

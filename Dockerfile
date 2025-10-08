@@ -1,3 +1,4 @@
+ARG BASE_IMAGE=ghcr.io/cosmian/kms:develop
 FROM debian:bookworm-20250428-slim AS builder
 
 ENV OPENSSL_DIR=/usr/local/openssl
@@ -32,7 +33,7 @@ RUN make clean
 RUN make V=1
 
 
-FROM ghcr.io/cosmian/kms:develop
+FROM ${BASE_IMAGE}
 
 # Install required packages
 RUN apt-get update && apt-get install -y \

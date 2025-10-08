@@ -110,6 +110,6 @@ jobs:
       - name: Generate artifact attestation for latest image
         uses: actions/attest-build-provenance@v2
         with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.BASE_REPO }}-latest
+          subject-name: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.BASE_REPO }}
           subject-digest: ${{ steps.push_latest.outputs.digest }}
           push-to-registry: true

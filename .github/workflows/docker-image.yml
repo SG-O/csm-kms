@@ -56,6 +56,60 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BASE_IMAGE=ghcr.io/cosmian/kms:latest
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta_dev
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          flavor: |
+            latest=true
+            prefix=dev
+            suffix=
+          tags: |
+            type=schedule,pattern={{date 'YYYYMMDD-hhmmss' tz='	Europe/Berlin'}}
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          
+      - name: Build and push Docker image
+        id: push_dev
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BASE_IMAGE=ghcr.io/cosmian/kms:develop
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta_sg_o_dev
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          flavor: |
+            latest=true
+            prefix=sg_o_dev
+            suffix=
+          tags: |
+            type=schedule,pattern={{date 'YYYYMMDD-hhmmss' tz='	Europe/Berlin'}}
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+            
+      - name: Build and push Docker image
+        id: push_sg_o_dev
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BASE_IMAGE=ghcr.io/sg-o/kms:develop
 
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2

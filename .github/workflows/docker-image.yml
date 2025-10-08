@@ -41,7 +41,7 @@ jobs:
         id: meta_latest
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.BASE_REPO }}-latest
+          images: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.BASE_REPO }}
           tags: |
             type=raw,value=latest
             type=schedule,pattern={{date 'YYYYMMDD-HHmmss' tz='Europe/Berlin'}}

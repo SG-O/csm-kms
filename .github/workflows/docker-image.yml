@@ -33,87 +33,82 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      # -------------------------------
+      # Build + push latest package
+      # -------------------------------
+      - name: Extract metadata for latest image
+        id: meta_latest
+        uses: docker/metadata-action@v5
         with:
-          flavor: |
-            latest=true
-            prefix=
-            suffix=
+          images: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.BASE_REPO }}-latest
           tags: |
-            type=schedule,pattern={{date 'YYYYMMDD-hhmmss' tz='	Europe/Berlin'}}
+            type=raw,value=latest
+            type=schedule,pattern={{date 'YYYYMMDD-HHmmss' tz='Europe/Berlin'}}
             type=ref,event=branch
-            type=ref,event=tag
-            type=ref,event=pr
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image
-        id: push
-        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+      - name: Build and push Latest Docker image
+        id: push_latest
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta_latest.outputs.tags }}
+          labels: ${{ steps.meta_latest.outputs.labels }}
           build-args: |
             BASE_IMAGE=ghcr.io/cosmian/kms:latest
 
-      - name: Extract metadata (tags, labels) for Docker
+      # -------------------------------
+      # Build + push dev package
+      # -------------------------------
+      - name: Extract metadata for dev image
         id: meta_dev
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        uses: docker/metadata-action@v5
         with:
-          flavor: |
-            latest=true
-            prefix=dev
-            suffix=
+          images: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.BASE_REPO }}-dev
           tags: |
-            type=schedule,pattern={{date 'YYYYMMDD-hhmmss' tz='	Europe/Berlin'}}
-            type=ref,event=branch
-            type=ref,event=tag
-            type=ref,event=pr
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          
-      - name: Build and push Docker image
+            type=raw,value=develop
+            type=schedule,pattern={{date 'YYYYMMDD-HHmmss' tz='Europe/Berlin'}}
+
+      - name: Build and push Dev Docker image
         id: push_dev
-        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta_dev.outputs.tags }}
+          labels: ${{ steps.meta_dev.outputs.labels }}
           build-args: |
             BASE_IMAGE=ghcr.io/cosmian/kms:develop
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta_sg_o_dev
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      # -------------------------------
+      # Build + push SG-O dev package
+      # -------------------------------
+      - name: Extract metadata for SG-O image
+        id: meta_sg_o
+        uses: docker/metadata-action@v5
         with:
-          flavor: |
-            latest=true
-            prefix=sg_o_dev
-            suffix=
+          images: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.BASE_REPO }}-sg-o
           tags: |
-            type=schedule,pattern={{date 'YYYYMMDD-hhmmss' tz='	Europe/Berlin'}}
-            type=ref,event=branch
-            type=ref,event=tag
-            type=ref,event=pr
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-            
-      - name: Build and push Docker image
-        id: push_sg_o_dev
-        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+            type=raw,value=develop
+            type=schedule,pattern={{date 'YYYYMMDD-HHmmss' tz='Europe/Berlin'}}
+
+      - name: Build and push SG-O Docker image
+        id: push_sg_o
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta_sg_o.outputs.tags }}
+          labels: ${{ steps.meta_sg_o.outputs.labels }}
           build-args: |
             BASE_IMAGE=ghcr.io/sg-o/kms:develop
 
-      - name: Generate artifact attestation
+      # -------------------------------
+      # Attestation (for Latest image)
+      # -------------------------------
+      - name: Generate artifact attestation for latest image
         uses: actions/attest-build-provenance@v2
         with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
-          subject-digest: ${{ steps.push.outputs.digest }}
+          subject-name: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/${{ env.BASE_REPO }}-latest
+          subject-digest: ${{ steps.push_latest.outputs.digest }}
           push-to-registry: true

@@ -1,8 +1,6 @@
 ARG BASE_IMAGE=ghcr.io/cosmian/kms:develop
 FROM debian:bookworm-20250428-slim AS builder
 
-ENV OPENSSL_DIR=/usr/local/openssl
-
 RUN apt-get update && apt-get install -y \
     build-essential binutils make csh g++ sed gawk autoconf automake autotools-dev libtool wget pkg-config \
     git \
@@ -16,14 +14,6 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /root
 
 RUN git clone https://github.com/CardContact/sc-hsm-embedded.git
-RUN git clone https://github.com/Cosmian/kms.git
-WORKDIR /root/kms
-RUN git submodule update --init --recursive
-
-ARG TARGETPLATFORM
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then export ARCHITECTURE=x86_64; elif [ "$TARGETPLATFORM" = "linux/arm/v7" ]; then export ARCHITECTURE=arm; elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then export ARCHITECTURE=arm64; else export ARCHITECTURE=x86_64; fi \
-    && bash /root/kms/.github/reusable_scripts/get_openssl_binaries.sh
-
 WORKDIR /root/sc-hsm-embedded
 
 RUN autoreconf -fi
